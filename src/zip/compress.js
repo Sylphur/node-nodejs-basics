@@ -8,10 +8,10 @@ const compress = async () => {
     const pathToTargetFile = path.join(path.resolve(), 'src', 'zip', 'files', 'archive.gz');
 
     try {
+        if (!fs.existsSync(pathToFile)) throw new Error('File to compress is not exist');
         const readStream = fs.createReadStream(pathToFile, {encoding: 'utf-8'});
         const writeStream = fs.createWriteStream(pathToTargetFile);
         const gZip = zlib.createGzip();
-        // readStream.pipe(gZip).pipe(writeStream);
         await stream.pipeline(readStream, gZip, writeStream);
 
     } catch (error) {
